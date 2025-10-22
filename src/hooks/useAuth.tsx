@@ -259,17 +259,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signInWithGoogle = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
       });
+      
       if (error) {
-        toast({ title: "Erro no login Google", description: error.message, variant: "destructive" });
+        console.error('Google OAuth error:', error);
+        toast({ 
+          title: "Erro no login Google", 
+          description: error.message || "Não foi possível conectar com Google", 
+          variant: "destructive" 
+        });
+        return;
       }
+
+      // OAuth redirect will happen automatically
+      console.log('Google OAuth initiated:', data);
     } catch (err: any) {
-      toast({ title: "Erro no login Google", description: "Falha de rede. Tente novamente.", variant: "destructive" });
+      console.error('Google OAuth exception:', err);
+      toast({ 
+        title: "Erro no login Google", 
+        description: err.message || "Falha de rede. Tente novamente.", 
+        variant: "destructive" 
+      });
     }
   };
 
