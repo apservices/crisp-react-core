@@ -117,13 +117,13 @@ export default function Auth({ onBack }: AuthProps) {
                       <Input
                         id="signin-email"
                         type="email"
-                        placeholder="seu@email.com"
+                        placeholder="teste@remixense.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="pl-10"
-                        required
                       />
                     </div>
+                    <p className="text-xs text-muted-foreground">Modo teste: qualquer email funciona</p>
                   </div>
 
                   <div className="space-y-2">
@@ -135,13 +135,13 @@ export default function Auth({ onBack }: AuthProps) {
                       <Input
                         id="signin-password"
                         type="password"
-                        placeholder="senha"
+                        placeholder="123456"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="pl-10"
-                        required
                       />
                     </div>
+                    <p className="text-xs text-muted-foreground">Modo teste: qualquer senha funciona</p>
                   </div>
 
                   <Button

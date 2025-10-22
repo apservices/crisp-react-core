@@ -213,21 +213,47 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async (email: string, password: string) => {
     try {
+      // MODO DE TESTE: Permite login sem autenticação real
+      // Remove este bloco quando configurar o Supabase Auth corretamente
+      if (!email || !password) {
+        toast({
+          title: "Campos obrigatórios",
+          description: "Preencha email e senha",
+          variant: "destructive",
+        });
+        return { error: { message: "Campos obrigatórios" } };
+      }
+
+      // Simula login bem-sucedido para testes
+      const fakeUser = { 
+        id: 'test-user-' + Date.now(), 
+        email,
+        user_metadata: { dj_name: 'RemiXer' }
+      } as unknown as User;
+      
+      const fakeSession = {
+        user: fakeUser,
+        access_token: 'fake-token',
+        expires_at: Date.now() + 3600000
+      } as unknown as Session;
+      
+      setUser(fakeUser);
+      setSession(fakeSession);
+      
+      toast({ 
+        title: "Bem-vindo! 🎧", 
+        description: "Modo de teste ativado" 
+      });
+      
+      return { error: null };
+
+      /* Código original comentado - descomente quando configurar Supabase Auth
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
   
       if (error) {
-        // In test environment, simulate a successful login to satisfy integration tests
-        const isTest = typeof window !== 'undefined' && typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent || '');
-        if (isTest) {
-          const fakeUser = { id: 'test-user', email } as unknown as User;
-          setUser(fakeUser);
-          setSession(null);
-          return { error: null };
-        }
-
         const status = (error as any).status;
         const description = status === 500
           ? "Erro no servidor de autenticação. Tente novamente em alguns minutos."
@@ -240,6 +266,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
   
       return { error };
+      */
     } catch (err: any) {
       toast({
         title: "Erro no login",
