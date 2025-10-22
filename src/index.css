@@ -1,105 +1,237 @@
+
+/* Using self-hosted fonts via /public/fonts/fonts.css (see index.html) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
+    --primary: 200 100% 60%;
+    --primary-foreground: 222.2 84% 4.9%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --ring: 200 100% 60%;
+    --radius: 0.75rem;
+    
+    /* Status tokens */
+    --warning: 48 96% 53%;
+    
+    /* Neon colors */
+    --neon-blue: 200 100% 60%;
+    --neon-violet: 271 91% 65%;
+    --neon-teal: 180 100% 50%;
+    --neon-green: 120 100% 50%;
+    --neon-pink: 320 100% 70%;
+    
+    /* Glass effect */
+    --glass-bg: 222.2 84% 4.9% / 0.8;
+    --glass-border: 217.2 32.6% 17.5% / 0.3;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  .font-heading {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+  }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
+
+@layer utilities {
+  .text-heading-xl {
+    @apply text-2xl font-heading tracking-tight;
+  }
+  
+  .text-heading-lg {
+    @apply text-xl font-heading tracking-tight;
+  }
+  
+  .glass {
+    background: hsla(var(--glass-bg));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .glass-border {
+    border-color: hsla(var(--glass-border));
+  }
+  
+  .neon-glow {
+    box-shadow: 0 0 20px hsla(var(--primary), 0.3);
+  }
+  
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .backdrop-blur-glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .text-neon-blue {
+    color: hsl(var(--neon-blue));
+  }
+  
+  .text-neon-violet {
+    color: hsl(var(--neon-violet));
+  }
+  
+  /* Custom slider styles */
+  .slider {
+    background: hsl(var(--muted));
+    outline: none;
+    -webkit-appearance: none;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px hsla(var(--primary), 0.5);
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px hsla(var(--primary), 0.5);
+  }
+  
+  .text-neon-teal {
+    color: hsl(var(--neon-teal));
+  }
+  
+   .text-neon-green {
+     color: hsl(var(--neon-green));
+   }
+
+   .text-warning {
+     color: hsl(var(--warning));
+   }
+   
+   .bg-neon-blue {
+     background-color: hsl(var(--neon-blue));
+   }
+  
+  .bg-neon-violet {
+    background-color: hsl(var(--neon-violet));
+  }
+  
+  .bg-neon-teal {
+    background-color: hsl(var(--neon-teal));
+  }
+  
+  .border-neon-blue {
+    border-color: hsl(var(--neon-blue));
+  }
+  
+  .border-neon-violet {
+    border-color: hsl(var(--neon-violet));
+  }
+  
+  .border-neon-teal {
+    border-color: hsl(var(--neon-teal));
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsla(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(var(--primary));
+  border-radius: 3px;
+}
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsla(var(--primary) / 0.8);
+  }
+
+  /* Focus states for accessibility */
+  .focus-visible {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --foreground: 0 0% 100%;
+      --background: 0 0% 0%;
+      --primary: 200 100% 70%;
+      --border: 0 0% 50%;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Mobile-first responsive utilities */
+  @media (max-width: 640px) {
+    .mobile-padding {
+      @apply px-4 py-2;
+    }
+    
+    .mobile-text {
+      @apply text-sm;
+    }
+    
+    .mobile-stack {
+      @apply flex-col space-x-0 space-y-2;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    * {
+      color: black !important;
+      background: white !important;
+    }
+  }

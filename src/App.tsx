@@ -1,27 +1,42 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './pages/Login';
+import { AuthProvider } from './hooks/useAuth';
+import ProtectedRoutes from './routes/ProtectedRoutes';
+import Index from './pages/Index';
+import NotFound from './pages/NotFound';
 
-const queryClient = new QueryClient();
+const rrFuture = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true,
+  v7_fetcherPersist: true,
+  v7_normalizeFormMethod: true,
+} as const;
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const router = createBrowserRouter([
+  { path: '/login', element: <Login /> },
+  {
+    element: <ProtectedRoutes />,
+    children: [
+      { path: '/', element: <Index /> },
+      { path: '/dashboard', element: <Index /> },
+      { path: '/tracks', element: <Index /> },
+      { path: '/vault', element: <Index /> },
+      { path: '*', element: <NotFound /> },
+    ],
+  },
+], { future: rrFuture as any });
+
+function App() {
+  return (
+    <AuthProvider>
+      <RouterProvider 
+        router={router} 
+        future={rrFuture as any}
+      />
+    </AuthProvider>
+  );
+}
 
 export default App;
+
